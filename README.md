@@ -4,6 +4,13 @@ En este proyecto se desarrolló una aplicación basada en IA para detectar el es
 
 ---
 
+## 🎥 Video demostración del proyecto
+
+Para ver cómo funciona la aplicación en acción, consulta el siguiente video:
+![Video](data/Videos/Resultados/video_demostracion.mp4)
+
+---
+
 ## 📥 Instalación y Configuración
 
 1. **Requisitos previos:**
