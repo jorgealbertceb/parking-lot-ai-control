@@ -1,57 +1,87 @@
 # 🚗 Proyecto de Detección de Plazas Libres y Ocupadas en un Parking utilizando IA
 
-En este documento se describen los principales errores encontrados durante el desarrollo de este proyecto, así como las soluciones implementadas. ¡Esperamos que esta información sea útil tanto para entender el progreso como para futuras mejoras! 🎯
+En este proyecto se desarrolló una aplicación basada en IA para detectar el estado de las plazas de aparcamiento en un parking utilizando modelos de visión por computadora. Este README detalla los pasos para instalar y ejecutar el proyecto, así como los errores y soluciones encontrados durante el desarrollo. 🎯
+
+---
+
+## 📥 Instalación y Configuración
+
+1. **Requisitos previos:**
+   - **Python 3.8 o superior:** Asegúrate de tener instalado Python. Puedes descargarlo desde [python.org](https://www.python.org/).
+   - **Librerías necesarias:** Instala las librerías requeridas ejecutando:
+     ```bash
+     pip install -r requirements.txt
+     ```
+
+2. **Archivos de prueba:**
+   - Videos de prueba disponibles en `data/Videos`.
+   - Imágenes redimensionadas y adaptadas disponibles en `data/Imagenes`.
+
+---
+
+## 🚀 Pasos para ejecutar la aplicación
+
+1. **Ejecuta App1 y App2 en local:**
+   - Asegúrate de instalar las dependencias mencionadas anteriormente.
+   - Lanza ambas aplicaciones desde la terminal:
+     ```bash
+     python app1.py
+     python app2.py
+     ```
+   - Abre el archivo HTML generado en tu navegador web.
+
+2. **Flujo de trabajo en la aplicación:**
+
+   - **App1: Selección de plazas de parking:**
+     1. En la interfaz web, pulsa el botón **App1**.
+     2. Selecciona una imagen del parking desde `data/Imagenes`.
+     3. Usa la herramienta interactiva para marcar las plazas de parking.
+     4. Pulsa **Submit** y luego **Flag** para guardar las coordenadas.
+     5. El archivo CSV generado estará disponible en `flagged/log.csv`.
+
+   - **App2: Predicción del estado de las plazas:**
+     1. Vuelve al menú principal y selecciona **App2**.
+     2. Sube los siguientes archivos:
+        - El **CSV** generado por App1.
+        - Un **video** correspondiente al parking (por ejemplo: para `imagen_parking1`, usa `video_parking1_recortado`).
+     3. Pulsa **Hacer predicción** y espera aproximadamente 3 minutos.
+     4. Los resultados se guardarán en la carpeta `runs`:
+        - **Archivo JSON** con las plazas detectadas: `runs/rectangles.json`
+        - **Video** con la predicción aplicada: `runs/parking_management.mp4`
 
 ---
 
 ## 🛠️ Errores y Soluciones
 
-### **1. Problema con la detección imprecisa en el video inicial**
+### **1. Problema con la detección imprecisa en el video inicial:**
+   - **Descripción:**
+     - Al trabajar con el video inicial (`video_prueba.mp4`), se identificaron falsos positivos en áreas no correspondientes a plazas de parking.
+   - **Solución:**
+     - Recorte del video: Limitamos el análisis a las áreas relevantes.
+     - El video recortado está disponible en: `video_prueba_recortado.mp4`.
 
-#### 📄 Descripción del problema:
-Al trabajar con el video inicial, `video_prueba.mp4`, se utilizó **Roboflow** para dividirlo en frames y etiquetar las plazas de parking como libres u ocupadas. Se entrenó un modelo basado en **YOLOv11x**, pero al evaluar los resultados en el video generado (`runs/detect/predict/video_prueba.mp4`), se detectaron los siguientes problemas:
+### **2. Mejor definición de las plazas y precisión en la detección:**
+   - **Descripción:**
+     - El método inicial con **bounding boxes** no distinguía correctamente las plazas en áreas complejas.
+   - **Solución:**
+     - **Definición manual con ParkingPtsSelection():**  
+       Se implementó una herramienta gráfica basada en **Tkinter** para definir polígonos alrededor de cada plaza.
+     - **Entrenamiento optimizado:**  
+       Se utilizó el modelo **YOLOv11s**, entrenado con un dataset de **más de 8,000 objetos** vistos desde drones.
 
-- El modelo identificaba incorrectamente partes de la carretera como plazas de parking libres.
-- Aunque se reconocían las etiquetas `Car parked` y `Clear to parked`, la precisión no era suficiente.
-
-#### 🛠️ Solución:
-1. **Recorte del video:**  
-   - Para simplificar el problema y mejorar la precisión del modelo, se recortó el video original, limitando el análisis a las áreas más relevantes.  
-   - El video recortado se encuentra disponible en: `video_prueba_recortado.mp4`.
-
----
-
-### **2. Mejor definición de las plazas y precisión en la detección**
-
-#### 📄 Descripción del problema:
-El método inicial basado en etiquetas y bounding boxes no era lo suficientemente preciso para distinguir plazas de parking en áreas complejas.
-
-#### 🛠️ Solución:
-1. **Uso de Ultralytics y ParkingPtsSelection():**  
-   - Se implementó la función `ParkingPtsSelection()` de la biblioteca **Ultralytics Solutions**, que permite definir manualmente las plazas de parking mediante polígonos en una interfaz gráfica con **Tkinter**.
-   - Esta herramienta facilita que el modelo reconozca las plazas exactas al dibujar rectángulos o polígonos alrededor de cada una.
-
-2. **Entrenamiento con vistas de drone:**  
-   - Se utilizó el modelo **YOLOv11m** debido a su mejor balance entre velocidad y precisión.
-   - El dataset utilizado contenía **más de 8,000 objetos** vistos desde drones, lo que permite al modelo identificar vehículos desde una perspectiva aérea.
+### **3. Resultados esperados tras las mejoras:**
+   Con estas implementaciones, se lograron los siguientes avances:
+   - ✅ **Mayor precisión:** Reducción de falsos positivos relacionados con áreas no destinadas a aparcamiento.
+   - 🚀 **Velocidad optimizada:** Gracias al modelo **YOLOv11s**.
+   - 🔄 **Escalabilidad:** Ahora es posible aplicar la solución a otros escenarios con vistas aéreas de parkings.
 
 ---
 
-### **3. Resultados esperados tras las mejoras**
+## 📁 Archivos Relacionados
 
-Con estas implementaciones, se lograron los siguientes avances:
-
-- ✅ **Mayor precisión:** Reducción de falsos positivos relacionados con áreas no destinadas a aparcamiento.  
-- 🚀 **Velocidad optimizada:** Gracias al modelo YOLOv11m.  
-- 🔄 **Escalabilidad:** Ahora es posible aplicar la solución a otros escenarios con vistas aéreas de parkings.
-
----
-
-## 📁 Archivos relacionados
-
-- **Video inicial:** [`video_prueba.mp4`](./path/to/video_prueba.mp4)  
-- **Video con resultados iniciales:** [`runs/detect/predict/video_prueba.mp4`](./path/to/runs/detect/predict/video_prueba.mp4)  
-- **Video recortado:** [`video_prueba_recortado.mp4`](./path/to/video_prueba_recortado.mp4)  
+- **Video inicial:** `video_prueba.mp4`
+- **Video con resultados iniciales:** `runs/detect/predict/video_prueba.mp4`
+- **Video recortado:** `video_prueba_recortado.mp4`
 
 ---
 
