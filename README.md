@@ -19,6 +19,7 @@ Para ver cómo funciona la aplicación en acción, consulta el siguiente video:
      ```bash
      pip install -r requirements.txt
      ```
+   - **Descargar archivos necesarios:** Descarga los archivos situados en https://drive.google.com/drive/folders/1N-6u65QTp6zSgcbq2yhWRg3hKBex6Wb7?usp=drive_link y colocar dentro de la carpeta `data/Videos`.
 
 2. **Archivos de prueba:**
    - Videos de prueba disponibles en `data/Videos`.
