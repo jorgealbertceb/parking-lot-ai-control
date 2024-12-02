@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 2
+names: ['car parked', 'clear to parked']
+
+roboflow:
+  workspace: jorgealbert
+  project: parking-lot-mlrab
+  version: 2
+  license: Private
+  url: https://app.roboflow.com/jorgealbert/parking-lot-mlrab/2
