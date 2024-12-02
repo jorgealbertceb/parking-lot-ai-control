@@ -6,8 +6,7 @@ En este proyecto se desarrolló una aplicación basada en IA para detectar el es
 
 ## 🎥 Video demostración del proyecto
 
-Para ver cómo funciona la aplicación en acción, consulta el siguiente video:
-![Video](data/Videos/video_demostracion3.mp4)
+Para ver cómo funciona la aplicación en acción, consulta el siguiente video: `data/Videos/video_demostracion3.mp4`
 
 ---
 
